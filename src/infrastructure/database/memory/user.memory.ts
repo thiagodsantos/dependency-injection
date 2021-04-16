@@ -24,4 +24,8 @@ export class UserMemory implements UserRepositoryInteface {
 
     throw UserRepositoryException.userNotFound();
   }
+
+  getAll = async (): Promise<UserEntity[]> => {
+    return usersPopulatedEntity;
+  }
 }
