@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "paths": {
+      "@src/*": ["src/*"],
+      "@test/*": ["test/*"]
+    },
+    "rootDirs": [
+      "./src"
+    ]
+  },
+  "compileOnSave": true,
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.test.ts"
+  ]
+}
