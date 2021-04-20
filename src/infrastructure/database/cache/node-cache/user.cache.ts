@@ -19,7 +19,7 @@ export class CacheUserRepository implements UserRepositoryInteface {
       throw UserRepositoryException.userNotFound();
     }
 
-    await this.db.add(id, user);
+    await this.db.add(`${index}-${id}`, user);
 
     return userEntity;
   }
