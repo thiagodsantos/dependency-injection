@@ -14,11 +14,7 @@ export class CacheUserRepository implements UserRepositoryInteface {
   }
 
   async updateUser(id: string, user: UserEntity): Promise<UserEntity> {
-    const userEntity = await this.db.get(`${index}-${id}`);
-    if (!userEntity) {
-      throw UserRepositoryException.userNotFound();
-    }
-
+    const userEntity = await this.getUserById(`${index}-${id}`);
     await this.db.add(`${index}-${id}`, user);
 
     return userEntity;
@@ -45,10 +41,8 @@ export class CacheUserRepository implements UserRepositoryInteface {
     const usersEntity: UserEntity[] = [];
 
     for (const key of keys) {
-      const userEntity = await this.db.get(key) as UserEntity;
-      if (userEntity) {
-        usersEntity.push(userEntity);
-      }
+      const userEntity = await this.getUserById(key) as UserEntity;
+      usersEntity.push(userEntity);
     }
 
     return usersEntity;
