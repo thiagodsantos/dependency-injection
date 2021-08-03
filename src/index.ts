@@ -1,6 +1,6 @@
 import 'module-alias/register';
 import 'reflect-metadata';
 
-import app from '@src/routes/index';
+import { app } from '@src/bootstrap';
 
-app.listen(process.env.PORT || 3000, () => console.log('Server iniciado...'));
+app.listen(process.env.PORT, () => console.log('Server iniciado...'));
