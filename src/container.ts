@@ -23,7 +23,7 @@ export class Container {
       }
     }
 
-    throw new Error('Instance not found in container');
+    throw new Error('Repository instance not found in container');
   }
 
   static getServiceInstance = (id: ContainerServiceInstanceEnum) => {
@@ -33,7 +33,7 @@ export class Container {
       }
     }
 
-    throw new Error('Instance not found in container');
+    throw new Error('Service instance not found in container');
   }
 }
 
