@@ -13,7 +13,7 @@ import { disconnect as databaseDisconnect } from "@src/infrastructure/database/m
 (async () => {
   try {
     await databaseConnect();
-    app.listen(process.env.PORT, () => console.log('Server iniciado...'));
+    app.listen(process.env.PORT, () => console.log('Server running on port :' + process.env.PORT));
   } catch (error) {
     await databaseDisconnect();
     console.error(error);
