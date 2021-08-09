@@ -1,6 +1,22 @@
+// Libraries
 import 'module-alias/register';
 import 'reflect-metadata';
 
-import { app } from '@src/bootstrap';
+// Bootstrap
+import { app } from "@src/bootstrap";
 
-app.listen(process.env.PORT, () => console.log('Server iniciado...'));
+// Infrastructure
+import { connect as databaseConnect } from "@src/infrastructure/database/mongodb";
+import { disconnect as databaseDisconnect } from "@src/infrastructure/database/mongodb";
+
+// Start server
+(async () => {
+  try {
+    await databaseConnect();
+    app.listen(process.env.PORT, () => console.log('Server iniciado...'));
+  } catch (error) {
+    await databaseDisconnect();
+    console.error(error);
+    process.exit(1);
+  }
+})();

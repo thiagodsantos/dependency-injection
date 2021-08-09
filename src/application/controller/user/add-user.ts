@@ -11,7 +11,7 @@ export default async (req: Request, res: Response) => {
   try {
     const addUserDTO = await getBodyFromRequestAndValidateDTO(req);
 
-    const userService = Container.getServiceInstance(ContainerServiceInstanceEnum.ADD_USER_SERVICE) as AddUserService;
+    const userService: AddUserService = Container.getServiceInstance(ContainerServiceInstanceEnum.ADD_USER_SERVICE);
     await userService.fromDTO(addUserDTO);
 
     return HttpsResponse.success(res);
@@ -23,7 +23,7 @@ export default async (req: Request, res: Response) => {
 const getBodyFromRequestAndValidateDTO = async (req: Request): Promise<AddUserDTO> => {
   const addUserDTO = AddUserDTO.fromBody(req.body);
   const details = await validate(addUserDTO);
-  if (!validate) {
+  if (details.length > 0) {
     throw UserException.invalidParameters(details);
   }
 

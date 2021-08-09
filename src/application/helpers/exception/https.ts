@@ -1,4 +1,4 @@
-import { Response as ExpressResponse } from "express";
+import { Response } from "express";
 import { ResponseStatusCodeEnum } from "@src/application/helpers/https/response";
 
 export class HttpsError extends Error {
@@ -18,11 +18,11 @@ export class HttpsError extends Error {
     }
   }
 
-  static fromResponse = (res: ExpressResponse, error: HttpsError | any): ExpressResponse => {
+  static fromResponse = (res: Response, error: HttpsError | Error): Response => {
     if (error instanceof HttpsError) {
       return res.status(error.statusCode).json(error.json());
     }
 
-    return res.status(ResponseStatusCodeEnum.INTERNAL).json({ message: error });
+    return res.status(ResponseStatusCodeEnum.INTERNAL).json({ message: error.message });
   }
 }

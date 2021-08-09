@@ -1,6 +1,7 @@
-import { IsNotEmpty } from 'class-validator';
+import {IsEmail, IsNotEmpty} from 'class-validator';
 
 export class AddUserDTO {
+  @IsEmail({}, { message: 'ADD-USER.ERROR.INVALID_EMAIL' })
   @IsNotEmpty({ message: 'ADD-USER.ERROR.EMPTY_EMAIL' })
   email: string;
 
