@@ -1,8 +1,21 @@
 import { Router } from "express";
 import user from '@src/infrastructure/rest/routes/user';
 
-const route = Router();
+type RouteType = {
+  path: string,
+  router: Router
+}
 
-route.use('/user', user);
+const routes: RouteType[] = [
+  {
+    path: "/user",
+    router: user
+  }
+]
 
-export default route;
+const router = Router();
+for (const route of routes) {
+  router.use('/' + process.env.API_VERSION + route.path, route.router);
+}
+
+export default router;
