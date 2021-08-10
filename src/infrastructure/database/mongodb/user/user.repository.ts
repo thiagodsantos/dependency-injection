@@ -53,7 +53,7 @@ export class UserRepository implements UserRepositoryInterface {
       const list: UserEntity[] = [];
       if (users.length > 0) {
         for (const user of users) {
-          list.push(UserEntity.fromJSON(user.toJSON() as UserEntity));
+          list.push(UserEntity.fromJSON(user.toJSON()));
         }
       }
 
@@ -63,14 +63,18 @@ export class UserRepository implements UserRepositoryInterface {
     }
   }
 
-  getUserById(id: string): Promise<UserEntity> {
-    throw new Error('NOT_IMPLEMENTED');
+  async getUserByUID(uid: string): Promise<UserEntity | null> {
+    try {
+      const user = await this.userModel.findOne({ uid }).exec();
+      return user ? UserEntity.fromJSON(user.toJSON()) : null;
+    } catch (error) {}
+    throw UserRepositoryException.internal();
   }
 
   async getUserByEmail(email: string): Promise<UserEntity | null> {
     try {
       const user = await this.userModel.findOne({ email }).exec();
-      return user ? user.toJSON() as UserEntity : null;
+      return user ? UserEntity.fromJSON(user.toJSON()) : null;
     } catch (error) {
       throw UserRepositoryException.internal();
     }
