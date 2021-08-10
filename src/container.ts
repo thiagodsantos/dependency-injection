@@ -2,10 +2,11 @@
 import { UserRepository } from "@src/infrastructure/database/mongodb/user/user.repository";
 
 // Domain Repository
-import { UserRepositoryInteface } from "@src/domain/repository/user.repository";
+import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 
 // Services
 import AddUserService from "@src/domain/service/user/add-user";
+import GetUsersService from "@src/domain/service/user/get-users";
 
 // Types
 type InstancesType = {
@@ -19,7 +20,8 @@ export enum ContainerRepositoryInstanceEnum {
 }
 
 export enum ContainerServiceInstanceEnum {
-  ADD_USER_SERVICE = 'ADD_USER_SERVICE'
+  ADD_USER_SERVICE = 'ADD_USER_SERVICE',
+  GET_USERS_SERVICE = 'GET_USERS_SERVICE'
 }
 
 export class Container {
@@ -48,7 +50,7 @@ export class Container {
 const repositoryInstances: InstancesType[] = [
   {
     id: ContainerRepositoryInstanceEnum.USER_REPOSITORY,
-    instance: function (): UserRepositoryInteface {
+    instance: function (): UserRepositoryInterface {
       return new UserRepository();
     }
   }
@@ -60,6 +62,12 @@ const serviceInstances: InstancesType[] = [
     id: ContainerServiceInstanceEnum.ADD_USER_SERVICE,
     instance: function () {
       return new AddUserService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
+    }
+  },
+  {
+    id: ContainerServiceInstanceEnum.GET_USERS_SERVICE,
+    instance: function () {
+      return new GetUsersService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
     }
   }
 ];

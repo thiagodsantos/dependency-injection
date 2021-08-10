@@ -1,7 +1,8 @@
 import { AddUserDTO } from '@src/application/dto/user/add.dto';
-import { UpdateUserDTO } from '@src/application/dto/user/update.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserEntity {
+  id!: string;
   name!: string;
   email!: string;
 
@@ -10,14 +11,19 @@ export class UserEntity {
 
   static fromAddUserDTO(addUserDTO: AddUserDTO): UserEntity {
     const instance = new UserEntity();
+    instance.id = uuidv4();
     instance.name = addUserDTO.name;
     instance.email = addUserDTO.email;
 
     return instance;
   }
 
-  updateFromUpdateUserDTO(updateUserDTO: UpdateUserDTO) {
-    this.email = updateUserDTO.email;
-    this.name = updateUserDTO.name;
+  static fromJSON(json: UserEntity) {
+    const instance = new UserEntity();
+    instance.id = json.id;
+    instance.name = json.name;
+    instance.email = json.email;
+
+    return instance;
   }
 }

@@ -9,7 +9,7 @@ import AddUserService from "@src/domain/service/user/add-user";
 
 export default async (req: Request, res: Response) => {
   try {
-    const addUserDTO = await getBodyFromRequestAndValidateDTO(req);
+    const addUserDTO = await getDTOFromRequestAndValidateDTO(req);
 
     const userService: AddUserService = Container.getServiceInstance(ContainerServiceInstanceEnum.ADD_USER_SERVICE);
     await userService.fromDTO(addUserDTO);
@@ -20,7 +20,7 @@ export default async (req: Request, res: Response) => {
   }
 }
 
-const getBodyFromRequestAndValidateDTO = async (req: Request): Promise<AddUserDTO> => {
+const getDTOFromRequestAndValidateDTO = async (req: Request): Promise<AddUserDTO> => {
   const addUserDTO = AddUserDTO.fromBody(req.body);
   const details = await validate(addUserDTO);
   if (details.length > 0) {

@@ -18,4 +18,8 @@ export class HttpsResponse {
   static success = (res: Response, message?: any): Response => {
     return res.status(ResponseStatusCodeEnum.OK).json({ message });
   }
+
+  static data = (res: Response, data: unknown): Response => {
+    return res.status(ResponseStatusCodeEnum.OK).json({ data });
+  }
 }

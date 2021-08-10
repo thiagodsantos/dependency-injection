@@ -1,12 +1,12 @@
 import { AddUserDTO } from "@src/application/dto/user/add.dto";
 import { UserException } from "@src/application/exceptions/user.exception";
-import { UserRepositoryInteface } from "@src/domain/repository/user.repository";
+import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 import { UserEntity } from "@src/domain/entity/user.entity";
 
 export default class AddUserService {
-  private readonly userRepository: UserRepositoryInteface;
+  private readonly userRepository: UserRepositoryInterface;
 
-  constructor(userRepository: UserRepositoryInteface) {
+  constructor(userRepository: UserRepositoryInterface) {
     this.userRepository = userRepository;
   }
 

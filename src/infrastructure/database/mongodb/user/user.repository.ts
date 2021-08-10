@@ -1,10 +1,11 @@
 import { classToPlain } from "class-transformer";
-import { UserRepositoryInteface } from "@src/domain/repository/user.repository";
+import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 import { UserEntity } from "@src/domain/entity/user.entity";
 import { UserModel } from "@src/infrastructure/database/mongodb/user/user.model";
 import { UserRepositoryException } from "@src/domain/exception/user.repository.exception";
+import {GetUsersDTO} from "@src/application/dto/user/get-users.dto";
 
-export class UserRepository implements UserRepositoryInteface {
+export class UserRepository implements UserRepositoryInterface {
   constructor() {
   }
 
@@ -18,8 +19,25 @@ export class UserRepository implements UserRepositoryInteface {
     }
   }
 
-  getAll(): Promise<UserEntity[]> {
-    throw new Error('NOT_IMPLEMENTED');
+  async getUsersFromDTO(getUsersDTO: GetUsersDTO): Promise<UserEntity[]> {
+    try {
+      const users = await UserModel
+        .find(getUsersDTO.getFilters())
+        .skip(getUsersDTO.offset)
+        .limit(getUsersDTO.limit)
+        .exec();
+
+      const list: UserEntity[] = [];
+      if (users.length > 0) {
+        for (const user of users) {
+          list.push(UserEntity.fromJSON(user.toJSON() as UserEntity));
+        }
+      }
+
+      return list;
+    } catch (error) {
+      throw UserRepositoryException.internal();
+    }
   }
 
   getUserById(id: string): Promise<UserEntity> {
