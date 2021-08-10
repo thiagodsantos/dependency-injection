@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { hash } from "@src/domain/helpers/bcrypt";
-import { AddUserDTO } from "@src/application/dto/user/add.dto";
+import { AddUserDTO } from "@src/application/dto/user/add-user.dto";
 import { UserException } from "@src/application/exceptions/user.exception";
 import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 import { UserEntity } from "@src/domain/entity/user.entity";

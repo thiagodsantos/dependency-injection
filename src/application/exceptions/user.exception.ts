@@ -1,5 +1,5 @@
-import {HttpsError} from "@src/application/helpers/exception/https";
-import {ResponseStatusCodeEnum} from "@src/application/helpers/https/response";
+import { HttpsError } from "@src/application/helpers/exception/https";
+import { ResponseStatusCodeEnum } from "@src/application/helpers/https/response";
 
 export class UserException extends HttpsError {
   static invalidParameters = (details: unknown): UserException => {

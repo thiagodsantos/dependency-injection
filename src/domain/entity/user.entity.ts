@@ -1,4 +1,5 @@
-import { AddUserDTO } from '@src/application/dto/user/add.dto';
+import { AddUserDTO } from '@src/application/dto/user/add-user.dto';
+import { UpdateUserDTO } from "@src/application/dto/user/update.dto";
 
 export class UserEntity {
   uid!: string;
@@ -24,5 +25,15 @@ export class UserEntity {
     instance.email = json.email;
 
     return instance;
+  }
+
+  updateFromDTO(updateUserDTO: UpdateUserDTO) {
+    if (this.email !== updateUserDTO.email) {
+      this.email = updateUserDTO.email;
+    }
+
+    if (this.name !== updateUserDTO.name) {
+      this.name = updateUserDTO.name;
+    }
   }
 }

@@ -9,6 +9,7 @@ import AddUserService from "@src/domain/service/user/add-user";
 import GetUsersService from "@src/domain/service/user/get-users";
 import LoginService from "@src/domain/service/user/login";
 import GetUserService from "@src/domain/service/user/get-user";
+import UpdateUserService from "@src/domain/service/user/update-user";
 
 // Types
 type InstancesType = {
@@ -25,6 +26,7 @@ export enum ContainerServiceInstanceEnum {
   ADD_USER_SERVICE = 'ADD_USER_SERVICE',
   GET_USER_SERVICE = 'GET_USER_SERVICE',
   GET_USERS_SERVICE = 'GET_USERS_SERVICE',
+  UPDATE_USER_SERVICE = 'UPDATE_USER_SERVICE',
   LOGIN_SERVICE = 'LOGIN_SERVICE'
 }
 
@@ -79,6 +81,12 @@ const serviceInstances: InstancesType[] = [
     id: ContainerServiceInstanceEnum.GET_USERS_SERVICE,
     instance: function () {
       return new GetUsersService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
+    }
+  },
+  {
+    id: ContainerServiceInstanceEnum.UPDATE_USER_SERVICE,
+    instance: function () {
+      return new UpdateUserService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
     }
   },
   {

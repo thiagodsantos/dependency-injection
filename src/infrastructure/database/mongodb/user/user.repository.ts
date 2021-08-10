@@ -53,7 +53,7 @@ export class UserRepository implements UserRepositoryInterface {
       const list: UserEntity[] = [];
       if (users.length > 0) {
         for (const user of users) {
-          list.push(UserEntity.fromJSON(user.toJSON()));
+          list.push(UserEntity.fromJSON(user.toJSON() as UserEntity));
         }
       }
 
@@ -66,7 +66,7 @@ export class UserRepository implements UserRepositoryInterface {
   async getUserByUID(uid: string): Promise<UserEntity | null> {
     try {
       const user = await this.userModel.findOne({ uid }).exec();
-      return user ? UserEntity.fromJSON(user.toJSON()) : null;
+      return user ? UserEntity.fromJSON(user.toJSON() as UserEntity) : null;
     } catch (error) {}
     throw UserRepositoryException.internal();
   }
@@ -74,13 +74,24 @@ export class UserRepository implements UserRepositoryInterface {
   async getUserByEmail(email: string): Promise<UserEntity | null> {
     try {
       const user = await this.userModel.findOne({ email }).exec();
-      return user ? UserEntity.fromJSON(user.toJSON()) : null;
+      return user ? UserEntity.fromJSON(user.toJSON() as UserEntity) : null;
     } catch (error) {
       throw UserRepositoryException.internal();
     }
   }
 
-  updateUser(id: string, user: UserEntity): Promise<UserEntity> {
-    throw new Error('NOT_IMPLEMENTED');
+  async updateUser(userEntity: UserEntity): Promise<void> {
+    const user = await this.userModel.findOne({ uid: userEntity.uid });
+    if (!user) {
+      throw UserRepositoryException.userNotFound();
+    }
+
+    try {
+      await user
+        .set(classToPlain(userEntity))
+        .save();
+    } catch (error) {
+      throw UserRepositoryException.internal();
+    }
   }
 }

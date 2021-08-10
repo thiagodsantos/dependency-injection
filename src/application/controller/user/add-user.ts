@@ -4,7 +4,7 @@ import { isAuthenticatedFromRequest } from "@src/application/authentication/toke
 import { Container, ContainerServiceInstanceEnum } from "@src/container";
 import { HttpsError } from "@src/application/helpers/exception/https";
 import { HttpsResponse } from "@src/application/helpers/https/response";
-import { AddUserDTO } from "@src/application/dto/user/add.dto";
+import { AddUserDTO } from "@src/application/dto/user/add-user.dto";
 import { UserException } from "@src/application/exceptions/user.exception";
 import AddUserService from "@src/domain/service/user/add-user";
 
