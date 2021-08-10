@@ -10,7 +10,7 @@ export default class AddUserService {
     this.userRepository = userRepository;
   }
 
-  async fromDTO(addUserDTO: AddUserDTO): Promise<void> {
+  async fromDTO(addUserDTO: AddUserDTO): Promise<string> {
     const userExists = await this.userRepository.getUserByEmail(addUserDTO.email);
     if (userExists) {
       throw UserException.existsByEmail(addUserDTO.email);
@@ -18,5 +18,7 @@ export default class AddUserService {
 
     const userEntity = UserEntity.fromAddUserDTO(addUserDTO);
     await this.userRepository.addUser(userEntity);
+
+    return userEntity.uid;
   }
 }

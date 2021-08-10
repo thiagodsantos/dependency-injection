@@ -12,9 +12,9 @@ export default async (req: Request, res: Response) => {
     const addUserDTO = await getDTOFromRequestAndValidateDTO(req);
 
     const userService: AddUserService = Container.getServiceInstance(ContainerServiceInstanceEnum.ADD_USER_SERVICE);
-    await userService.fromDTO(addUserDTO);
+    const user = await userService.fromDTO(addUserDTO);
 
-    return HttpsResponse.success(res);
+    return HttpsResponse.data(res, user);
   } catch (error) {
     return HttpsError.fromResponse(res, error);
   }
