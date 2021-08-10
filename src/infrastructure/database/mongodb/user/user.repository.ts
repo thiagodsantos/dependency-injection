@@ -1,14 +1,13 @@
 import { classToPlain } from "class-transformer";
-import { Model } from "mongoose";
 import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 import { UserEntity } from "@src/domain/entity/user.entity";
 import { UserRepositoryException } from "@src/domain/exception/user.repository.exception";
 import { GetUsersDTO } from "@src/application/dto/user/get-users.dto";
-import { IUserDocument } from "@src/infrastructure/database/mongodb/user/user.types";
+import { IUserModel} from "@src/infrastructure/database/mongodb/user/user.types";
 import { UserModel } from "@src/infrastructure/database/mongodb/user/user.model";
 
 export class UserRepository implements UserRepositoryInterface {
-  private readonly userModel: Model<IUserDocument>;
+  private readonly userModel: IUserModel;
 
   constructor() {
     this.userModel = UserModel;

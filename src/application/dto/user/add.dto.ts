@@ -8,6 +8,9 @@ export class AddUserDTO {
   @IsNotEmpty({ message: 'ADD-USER.ERROR.EMPTY_NAME' })
   name: string;
 
+  @IsNotEmpty({ message: 'ADD-USER.ERROR.EMPTY_PASSWORD' })
+  password: string;
+
   private constructor () {
   }
 
@@ -15,6 +18,7 @@ export class AddUserDTO {
     const instance = new AddUserDTO();
     instance.email = body.email;
     instance.name = body.name;
+    instance.password = body.password;
 
     return instance;
   }
