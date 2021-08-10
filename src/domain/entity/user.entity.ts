@@ -2,7 +2,7 @@ import { AddUserDTO } from '@src/application/dto/user/add.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 export class UserEntity {
-  id!: string;
+  uid!: string;
   name!: string;
   email!: string;
 
@@ -11,7 +11,7 @@ export class UserEntity {
 
   static fromAddUserDTO(addUserDTO: AddUserDTO): UserEntity {
     const instance = new UserEntity();
-    instance.id = uuidv4();
+    instance.uid = uuidv4();
     instance.name = addUserDTO.name;
     instance.email = addUserDTO.email;
 
@@ -20,7 +20,7 @@ export class UserEntity {
 
   static fromJSON(json: UserEntity) {
     const instance = new UserEntity();
-    instance.id = json.id;
+    instance.uid = json.uid;
     instance.name = json.name;
     instance.email = json.email;
 
