@@ -7,6 +7,7 @@ import { UserRepositoryInterface } from "@src/domain/repository/user.repository"
 // Services
 import AddUserService from "@src/domain/service/user/add-user";
 import GetUsersService from "@src/domain/service/user/get-users";
+import LoginService from "@src/domain/service/user/login";
 
 // Types
 type InstancesType = {
@@ -21,9 +22,11 @@ export enum ContainerRepositoryInstanceEnum {
 
 export enum ContainerServiceInstanceEnum {
   ADD_USER_SERVICE = 'ADD_USER_SERVICE',
-  GET_USERS_SERVICE = 'GET_USERS_SERVICE'
+  GET_USERS_SERVICE = 'GET_USERS_SERVICE',
+  LOGIN_SERVICE = 'LOGIN_SERVICE'
 }
 
+// Container
 export class Container {
   static getRepositoryInstance = (id: ContainerRepositoryInstanceEnum) => {
     for (const repository of repositoryInstances) {
@@ -68,6 +71,12 @@ const serviceInstances: InstancesType[] = [
     id: ContainerServiceInstanceEnum.GET_USERS_SERVICE,
     instance: function () {
       return new GetUsersService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
+    }
+  },
+  {
+    id: ContainerServiceInstanceEnum.LOGIN_SERVICE,
+    instance: function () {
+      return new LoginService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
     }
   }
 ];

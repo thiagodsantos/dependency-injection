@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { validate } from "class-validator";
+import { isAuthenticatedFromRequest } from "@src/application/authentication/token";
 import { Container, ContainerServiceInstanceEnum } from "@src/container";
 import { HttpsError } from "@src/application/helpers/exception/https";
 import { HttpsResponse } from "@src/application/helpers/https/response";
@@ -9,6 +10,8 @@ import GetUsersService from "@src/domain/service/user/get-users";
 
 export default async (req: Request, res: Response) => {
   try {
+    isAuthenticatedFromRequest(req);
+
     const getUsersDTO = await getDTOFromRequestAndValidateDTO(req);
 
     const usersService: GetUsersService = Container.getServiceInstance(ContainerServiceInstanceEnum.GET_USERS_SERVICE);
