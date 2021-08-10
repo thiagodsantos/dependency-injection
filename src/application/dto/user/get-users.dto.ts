@@ -34,18 +34,4 @@ export class GetUsersDTO {
 
     return instance;
   }
-
-  getFilters(): Readonly<Partial<GetUsersDTO>> {
-    const filters: Partial<GetUsersDTO> = {};
-
-    if (this.email) {
-      filters.email = this.email;
-    }
-
-    if (this.name) {
-      filters.name = this.name;
-    }
-
-    return filters;
-  }
 }

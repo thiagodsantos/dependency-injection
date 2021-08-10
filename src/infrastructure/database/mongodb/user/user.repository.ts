@@ -1,17 +1,22 @@
 import { classToPlain } from "class-transformer";
+import { Model } from "mongoose";
 import { UserRepositoryInterface } from "@src/domain/repository/user.repository";
 import { UserEntity } from "@src/domain/entity/user.entity";
-import { UserModel } from "@src/infrastructure/database/mongodb/user/user.model";
 import { UserRepositoryException } from "@src/domain/exception/user.repository.exception";
-import {GetUsersDTO} from "@src/application/dto/user/get-users.dto";
+import { GetUsersDTO } from "@src/application/dto/user/get-users.dto";
+import { IUserDocument } from "@src/infrastructure/database/mongodb/user/user.types";
+import { UserModel } from "@src/infrastructure/database/mongodb/user/user.model";
 
 export class UserRepository implements UserRepositoryInterface {
+  private readonly userModel: Model<IUserDocument>;
+
   constructor() {
+    this.userModel = UserModel;
   }
 
   async addUser(userEntity: UserEntity): Promise<void> {
     try {
-      const model = new UserModel(classToPlain(userEntity));
+      const model = new this.userModel(classToPlain(userEntity));
       await model.save();
     } catch (error) {
       console.error(error);
@@ -40,7 +45,7 @@ export class UserRepository implements UserRepositoryInterface {
     }
 
     try {
-      const users = await UserModel
+      const users = await this.userModel
         .find(filters)
         .skip(getUsersDTO.offset)
         .limit(getUsersDTO.limit)
@@ -65,7 +70,7 @@ export class UserRepository implements UserRepositoryInterface {
 
   async getUserByEmail(email: string): Promise<UserEntity | null> {
     try {
-      const user = await UserModel.findOne({ email }).exec();
+      const user = await this.userModel.findOne({ email }).exec();
       return user ? user.toJSON() as UserEntity : null;
     } catch (error) {
       throw UserRepositoryException.internal();
