@@ -20,9 +20,28 @@ export class UserRepository implements UserRepositoryInterface {
   }
 
   async getUsersFromDTO(getUsersDTO: GetUsersDTO): Promise<UserEntity[]> {
+    type FiltersType = {
+      name?: {
+        $regex: RegExp
+      },
+      email?: string
+    }
+
+    const filters: FiltersType = {};
+
+    if (getUsersDTO.email) {
+      filters.email = getUsersDTO.email
+    }
+
+    if (getUsersDTO.name) {
+      filters.name = {
+        $regex: new RegExp(getUsersDTO.name, 'ig')
+      }
+    }
+
     try {
       const users = await UserModel
-        .find(getUsersDTO.getFilters())
+        .find(filters)
         .skip(getUsersDTO.offset)
         .limit(getUsersDTO.limit)
         .exec();
