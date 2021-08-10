@@ -7,16 +7,15 @@ import { UserRepositoryInteface } from "@src/domain/repository/user.repository";
 // Services
 import AddUserService from "@src/domain/service/user/add-user";
 
-// Mongo Models
-// import { UserModel } from "@src/infrastructure/database/mongodb/user/user.model";
-
+// Types
 type InstancesType = {
   id: ContainerRepositoryInstanceEnum | ContainerServiceInstanceEnum,
   instance: Function
 }
 
+// Enums
 export enum ContainerRepositoryInstanceEnum {
-  USER_REPOSITORY = 'USER_REPOSITORY'
+  USER_REPOSITORY = 'USER_REPOSITORY',
 }
 
 export enum ContainerServiceInstanceEnum {
@@ -45,6 +44,7 @@ export class Container {
   }
 }
 
+// Repositories
 const repositoryInstances: InstancesType[] = [
   {
     id: ContainerRepositoryInstanceEnum.USER_REPOSITORY,
@@ -54,6 +54,7 @@ const repositoryInstances: InstancesType[] = [
   }
 ];
 
+// Services
 const serviceInstances: InstancesType[] = [
   {
     id: ContainerServiceInstanceEnum.ADD_USER_SERVICE,
@@ -61,15 +62,30 @@ const serviceInstances: InstancesType[] = [
       return new AddUserService(Container.getRepositoryInstance(ContainerRepositoryInstanceEnum.USER_REPOSITORY));
     }
   }
-]
+];
 
-/*
-const checkDuplicateInstance = (instances: InstancesType[]): boolean => {
-  if (instances.length === 0) {
-    console.info('No instances');
+// Validates
+const validateUniqueInstances = (instances: InstancesType[]) => {
+  type InstancesTAddedype = {
+    id: ContainerRepositoryInstanceEnum | ContainerServiceInstanceEnum
   }
 
-  for (const instance of instances) {
+  const instancesAdded: InstancesTAddedype[] = [];
 
+  for (const { id } of instances) {
+    const hasInstance = instancesAdded.filter(instance => instance.id === id);
+    if (hasInstance.length > 0) {
+      throw new Error('Instance ' + id + ' duplicated');
+    }
+
+    instancesAdded.push({ id });
   }
-}*/
+
+  return instancesAdded;
+}
+
+// Boot
+(() => {
+  validateUniqueInstances(repositoryInstances);
+  validateUniqueInstances(serviceInstances);
+})();
