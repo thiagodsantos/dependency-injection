@@ -8,14 +8,18 @@ export const connect = async () => {
     return;
   }
 
-  await Mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useFindAndModify: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
+  try {
+    await Mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useFindAndModify: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
 
-  database = Mongoose.connection;
+    database = Mongoose.connection;
+  } catch (error) {
+    throw new Error('DATABASE_CONNECT_ERROR');
+  }
 }
 
 export const disconnect = async () => {
@@ -23,5 +27,9 @@ export const disconnect = async () => {
     return;
   }
 
-  await Mongoose.disconnect();
+  try {
+    await Mongoose.disconnect();
+  } catch (error) {
+    throw new Error('DATABASE_DISCONNECT_ERROR');
+  }
 }
