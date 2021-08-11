@@ -36,4 +36,12 @@ export class UserEntity {
       this.name = updateUserDTO.name;
     }
   }
+
+  toJSON(): Readonly<Partial<UserEntity>> {
+    return {
+      uid: this.uid,
+      name: this.name,
+      email: this.email
+    }
+  }
 }
