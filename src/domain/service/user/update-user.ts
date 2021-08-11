@@ -2,6 +2,7 @@ import { UserRepositoryInterface } from "@src/domain/repository/user.repository"
 import { UserException } from "@src/application/exceptions/user.exception";
 import { UserRepositoryException } from "@src/domain/exception/user.repository.exception";
 import { UpdateUserDTO } from "@src/application/dto/user/update.dto";
+import {UserEntity} from "@src/domain/entity/user.entity";
 
 export default class UpdateUserService {
   private readonly userRepository: UserRepositoryInterface;
@@ -10,7 +11,7 @@ export default class UpdateUserService {
     this.userRepository = userRepository;
   }
 
-  async updateUserFromDTO(updateUserDTO: UpdateUserDTO): Promise<void> {
+  async updateUserFromDTO(updateUserDTO: UpdateUserDTO): Promise<UserEntity> {
     const user = await this.userRepository.getUserByUID(updateUserDTO.uid);
     if (!user) {
       throw UserRepositoryException.userNotFound();
@@ -25,5 +26,7 @@ export default class UpdateUserService {
     user.updateFromDTO(updateUserDTO);
 
     await this.userRepository.updateUser(user);
+
+    return user;
   }
 }
