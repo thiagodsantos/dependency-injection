@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
+    "start": "node lib/index.js",
     "dev": "npm run build && ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
